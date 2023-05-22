@@ -1,0 +1,45 @@
+{
+	"attributes": {
+		"destination": {
+			"address": {
+				"socketAddress": {
+					"address": "172.19.0.4",
+					"portValue": 51051
+				}
+			}
+		},
+		"metadataContext": {},
+		"request": {
+			"http": {
+				"headers": {
+					":authority": "localhost:51051",
+					":method": "GET",
+					":path": "/backend",
+					":scheme": "http",
+					"accept": "*/*",
+					"user-agent": "curl/7.88.1",
+					"x-forwarded-proto": "http",
+					"x-request-id": "e9a184bb-30f5-4b75-9ddc-adb743400b6a"
+				},
+				"host": "localhost:51051",
+				"id": "16213418134161077556",
+				"method": "GET",
+				"path": "/backend",
+				"protocol": "HTTP/1.1",
+				"scheme": "http"
+			},
+			"time": "2023-05-22T06:57:18.534755Z"
+		},
+		"source": {
+			"address": {
+				"socketAddress": {
+					"address": "172.19.0.1",
+					"portValue": 36568
+				}
+			}
+		}
+	},
+    "parsed_body": {},
+    "parsed_path": [],
+    "parsed_query": {}
+}
