@@ -10,7 +10,7 @@ services:
       - KEYCLOAK_ADMIN=admin
       - KEYCLOAK_ADMIN_PASSWORD=admin
   envoy:
-    image: envoyproxy/envoy:v1.21-latest
+    image: envoyproxy/envoy:v1.26-latest
     ports:
       - "9901:9901"
       - "51051:51051"
@@ -31,7 +31,7 @@ services:
       - ./opa/policy.rego:/policy.rego
       - ./opa/opa.yaml:/opa.yaml
   app:
-    image: demo-sidecar-app:v0.0.1
+    image: demo-sidecar-app:v0.0.4
     ports:
       - "8090:8090"
     environment:

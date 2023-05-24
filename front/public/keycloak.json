@@ -1,0 +1,8 @@
+{
+  "realm": "consumer",
+  "auth-server-url": "https://auth.masemfordev.com/",
+  "ssl-required": "external",
+  "resource": "web",
+  "public-client": true,
+  "confidential-port": 0
+}

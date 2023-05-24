@@ -31,21 +31,40 @@ static_resources:
                 route:
                   cluster: service_envoyproxy_io
           http_filters:
+          - name: envoy.filters.http.jwt_authn
+            typed_config:
+              '@type': type.googleapis.com/envoy.extensions.filters.http.jwt_authn.v3.JwtAuthentication
+              providers:
+                keycloak:
+                  issuer: https://auth.masemfordev.com/realms/consumer
+                  forward_payload_header: payload
+                  remote_jwks:
+                    http_uri:
+                      uri: "https://auth.masemfordev.com/realms/consumer/protocol/openid-connect/certs"
+                      cluster: jwks
+                      timeout: 5s
+                    cache_duration: 600s
+              rules:
+                - match:
+                    prefix: "/"
+                  requires:
+                    provider_name: keycloak
+              bypass_cors_preflight: true
           - name: envoy.filters.http.ext_authz
             typed_config:
               '@type': type.googleapis.com/envoy.extensions.filters.http.ext_authz.v3.ExtAuthz
               transport_api_version: V3
               failure_mode_allow: false
               grpc_service:
-                google_grpc:
-                  target_uri: opa-envoy:9191
-                  stat_prefix: ext_authz
+                envoy_grpc:
+                  cluster_name: opa-authz
               with_request_body:
                 max_request_bytes: 8192
                 allow_partial_message: true
           - name: envoy.filters.http.router
             typed_config:
               "@type": type.googleapis.com/envoy.extensions.filters.http.router.v3.Router
+
   clusters:
   - name: service_envoyproxy_io
     type: LOGICAL_DNS
@@ -59,3 +78,30 @@ static_resources:
               socket_address:
                 address: app
                 port_value: 8090
+  - name: opa-authz
+    type: STRICT_DNS
+    typed_extension_protocol_options:
+      envoy.extensions.upstreams.http.v3.HttpProtocolOptions:
+        "@type": type.googleapis.com/envoy.extensions.upstreams.http.v3.HttpProtocolOptions
+        explicit_http_config:
+          http2_protocol_options: {}
+    load_assignment:
+      cluster_name: opa-authz
+      endpoints:
+      - lb_endpoints:
+        - endpoint:
+            address:
+              socket_address:
+                address: opa-envoy
+                port_value: 9191
+  - name: jwks
+    type: LOGICAL_DNS
+    load_assignment:
+      cluster_name: jwks
+      endpoints:
+        - lb_endpoints:
+            - endpoint:
+                address:
+                  socket_address:
+                    address: keycloak
+                    port_value: 8080

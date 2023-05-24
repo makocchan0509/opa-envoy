@@ -1,0 +1,52 @@
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: demo-sidecar-auth-app
+  labels:
+    cloud.googleapis.com/location: asia-northeast1
+  annotations:
+    run.googleapis.com/launch-stage: BETA
+spec:
+  template:
+    metadata:
+      annotations:
+        run.googleapis.com/execution-environment: gen2
+    spec:
+      containerConcurrency: 80
+      timeoutSeconds: 30
+      containers:
+        - image: asia-northeast1-docker.pkg.dev/ca-masem-test/any-container/demo-sidecar-app:v0.0.1
+          name: proxy-app
+          ports:
+              containerPort: 8080
+          startupProbe:
+            httpGet:
+              path: /
+              port: 8080
+          env:
+            - name: APP_NAME
+              value: 'proxy'
+            - name: APP_PORT
+              value: '8090'
+          resources:
+            limits:
+              cpu: 1000m
+              memory: 256Mi
+        - image: asia-northeast1-docker.pkg.dev/ca-masem-test/any-container/demo-sidecar-app:v0.0.1
+          name: backend-app
+          startupProbe:
+            httpGet:
+              path: /backend
+              port: 8090
+          env:
+            - name: APP_NAME
+              value: 'backend'
+            - name: APP_PORT
+              value: '8090'
+          resources:
+            limits:
+              cpu: 1000m
+              memory: 256Mi
+  traffic:
+    - percent: 100
+      latestRevision: true

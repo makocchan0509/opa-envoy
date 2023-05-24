@@ -1,8 +1,27 @@
-package envoy.http.public
+package envoy.authz
 
-default allow := false
+import input.attributes.request.http as http_request
+
+default allow = false
 
 allow {
-  input.attributes.request.http.method == "GET"
-	input.attributes.request.http.path == "/backend"
+	path
+	method
+}
+
+path {
+	http_request.path == "/backend"
+}
+
+method {
+  http_request.method == "OPTIONS"
+}
+
+method {
+	http_request.method == "GET"
+  claims.resource_access.web.roles[_] == "extended"
+}
+
+claims = payload {
+    payload := json.unmarshal(base64url.decode(http_request.headers.payload))
 }
