@@ -5,7 +5,7 @@ COPY package.json /app
 RUN npm install
 
 COPY . /app
-COPY .env.sandbox /app/.env
+COPY .env /app/.env
 RUN npm run build
 
 CMD ["npm","start"]

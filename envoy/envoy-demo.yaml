@@ -36,11 +36,11 @@ static_resources:
               '@type': type.googleapis.com/envoy.extensions.filters.http.jwt_authn.v3.JwtAuthentication
               providers:
                 keycloak:
-                  issuer: https://auth.masemfordev.com/auth/realms/consumer
+                  issuer: http://localhost:8080/auth/realms/consumer
                   forward_payload_header: payload
                   remote_jwks:
                     http_uri:
-                      uri: "https://auth.masemfordev.com/auth/realms/consumer/protocol/openid-connect/certs"
+                      uri: "http://keycloak/auth/realms/consumer/protocol/openid-connect/certs"
                       cluster: jwks
                       timeout: 5s
                     cache_duration: 600s
@@ -76,7 +76,7 @@ static_resources:
         - endpoint:
             address:
               socket_address:
-                address: localhost
+                address: app
                 port_value: 8090
   - name: opa-authz
     type: STRICT_DNS
@@ -92,7 +92,7 @@ static_resources:
         - endpoint:
             address:
               socket_address:
-                address: localhost
+                address: opa-envoy
                 port_value: 9191
   - name: jwks
     type: STRICT_DNS
@@ -103,8 +103,8 @@ static_resources:
             - endpoint:
                 address:
                   socket_address:
-                    address: auth.masemfordev.com
-                    port_value: 443
+                    address: keycloak
+                    port_value: 8080
     transport_socket:
       name: envoy.transport_sockets.tls
       typed_config:

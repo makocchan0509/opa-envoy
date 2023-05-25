@@ -2,7 +2,7 @@ resource "keycloak_realm" "consumer" {
   realm = "consumer"
   enabled = "true"
   attributes      = {
-    frontendUrl = "https://auth.masemfordev.com/auth"
+    frontendUrl = "http://localhost:8080/auth"
   }
 }
 
@@ -13,7 +13,7 @@ resource "keycloak_openid_client" "web" {
   access_type = "PUBLIC"
   login_theme = "keycloak"
   valid_redirect_uris = [
-    "https://web.masemfordev.com/*"
+    "http://localhost:3000/*"
   ]
   standard_flow_enabled = true
   direct_access_grants_enabled  = true

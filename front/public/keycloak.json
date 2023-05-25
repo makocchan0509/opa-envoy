@@ -1,6 +1,6 @@
 {
   "realm": "consumer",
-  "auth-server-url": "https://auth.masemfordev.com/auth",
+  "auth-server-url": "http://localhost:8080/auth",
   "ssl-required": "external",
   "resource": "web",
   "public-client": true,

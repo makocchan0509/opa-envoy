@@ -4,15 +4,3 @@ plugins:
     enable-reflection: true
 decision_logs:
   console: true
-services:
-  gcs:
-    url: https://storage.googleapis.com/storage/v1/b/ca-masem-test-opa-bundle/o
-    credentials:
-      gcp_metadata:
-        scopes:
-          - https://www.googleapis.com/auth/devstorage.read_only
-bundles:
-  authz:
-    service: gcs
-    # NOTE ?alt=media is required
-    resource: 'bundle.tar.gz?alt=media'

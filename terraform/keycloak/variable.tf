@@ -1,5 +1,5 @@
 variable "keycloak-url" {
-  default = "https://auth.masemfordev.com/auth"
+  default = "http://localhost:8080/auth"
 }
 
 variable "keycloak-password" {}
