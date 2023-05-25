@@ -16,33 +16,37 @@ spec:
       timeoutSeconds: 30
       containers:
         - image: asia-northeast1-docker.pkg.dev/ca-masem-test/any-container/demo-sidecar-app:v0.0.1
-          name: proxy-app
-          ports:
-              containerPort: 8080
-          startupProbe:
-            httpGet:
-              path: /
-              port: 8080
+          name: backend-app
           env:
             - name: APP_NAME
-              value: 'proxy'
+              value: 'backend'
             - name: APP_PORT
               value: '8090'
           resources:
             limits:
               cpu: 1000m
               memory: 256Mi
-        - image: asia-northeast1-docker.pkg.dev/ca-masem-test/any-container/demo-sidecar-app:v0.0.1
-          name: backend-app
-          startupProbe:
-            httpGet:
-              path: /backend
-              port: 8090
-          env:
-            - name: APP_NAME
-              value: 'backend'
-            - name: APP_PORT
-              value: '8090'
+        - image: asia-northeast1-docker.pkg.dev/ca-masem-test/any-container/envoy:1.26.1-u
+          name: envoy-proxy
+          ports:
+            containerPort: 51051
+          args:
+          - "-c"
+          - "/etc/envoy/envoy.yaml"
+          - "--service-cluster"
+          - "front-proxy"
+          resources:
+            limits:
+              cpu: 1000m
+              memory: 256Mi
+        - image: asia-northeast1-docker.pkg.dev/ca-masem-test/any-container/opa:envoy-u
+          name: opa
+          args:
+          - "run"
+          - "--server"
+          - "--config-file=/opa.yaml"
+          - "--log-level=debug"
+          - "/policy.rego"
           resources:
             limits:
               cpu: 1000m

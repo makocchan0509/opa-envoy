@@ -15,23 +15,21 @@ spec:
       containerConcurrency: 80
       timeoutSeconds: 30
       containers:
-        - image: asia-northeast1-docker.pkg.dev/ca-masem-test/any-container/keycloak:v21.1.1
+        - image: asia-northeast1-docker.pkg.dev/ca-masem-test/any-container/keycloak:v21.1.2-u
           name: keycloak
           ports:
             containerPort: 8080
-          startupProbe:
-            httpGet:
-              path: /
-              port: 8080
           env:
             - name: KEYCLOAK_ADMIN
               value: 'admin'
             - name: KEYCLOAK_ADMIN_PASSWORD
               value: 'admin'
+          args:
+          - "start-dev"
           resources:
             limits:
-              cpu: 1000m
-              memory: 512Mi
+              cpu: 4000m
+              memory: 2Gi
   traffic:
     - percent: 100
       latestRevision: true
