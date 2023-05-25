@@ -36,11 +36,11 @@ static_resources:
               '@type': type.googleapis.com/envoy.extensions.filters.http.jwt_authn.v3.JwtAuthentication
               providers:
                 keycloak:
-                  issuer: https://auth.masemfordev.com/realms/consumer
+                  issuer: https://auth.masemfordev.com/auth/realms/consumer
                   forward_payload_header: payload
                   remote_jwks:
                     http_uri:
-                      uri: "https://auth.masemfordev.com/realms/consumer/protocol/openid-connect/certs"
+                      uri: "https://auth.masemfordev.com/auth/realms/consumer/protocol/openid-connect/certs"
                       cluster: jwks
                       timeout: 5s
                     cache_duration: 600s

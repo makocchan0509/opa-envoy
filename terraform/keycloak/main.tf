@@ -2,7 +2,7 @@ resource "keycloak_realm" "consumer" {
   realm = "consumer"
   enabled = "true"
   attributes      = {
-    frontendUrl = "https://auth.masemfordev.com/"
+    frontendUrl = "https://auth.masemfordev.com/auth"
   }
 }
 

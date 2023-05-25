@@ -1,14 +1,13 @@
 version: '3'
 services:
   keycloak:
-    image: quay.io/keycloak/keycloak:21.1.1
+    image: jboss/keycloak:16.1.1
     ports:
       - "8080:8080"
-    command:
-      - start-dev
     environment:
-      - KEYCLOAK_ADMIN=admin
-      - KEYCLOAK_ADMIN_PASSWORD=admin
+      - KEYCLOAK_USER=admin
+      - KEYCLOAK_PASSWORD=admin
+      - KEYCLOAK_FRONTEND_URL=https://auth.masemfordev.com/auth
   envoy:
     image: envoyproxy/envoy:v1.26-latest
     ports:
