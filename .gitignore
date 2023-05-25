@@ -1,3 +1,7 @@
 opa-envoy-plugin/
 .DS_Store
 .idea/
+
+terraform.tfstate
+terraform.tfstate.backup
+.terraform/
