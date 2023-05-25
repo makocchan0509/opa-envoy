@@ -76,7 +76,7 @@ static_resources:
         - endpoint:
             address:
               socket_address:
-                address: app
+                address: localhost
                 port_value: 8090
   - name: opa-authz
     type: STRICT_DNS
@@ -92,7 +92,7 @@ static_resources:
         - endpoint:
             address:
               socket_address:
-                address: opa-envoy
+                address: localhost
                 port_value: 9191
   - name: jwks
     type: LOGICAL_DNS
@@ -103,5 +103,7 @@ static_resources:
             - endpoint:
                 address:
                   socket_address:
-                    address: keycloak
-                    port_value: 8080
+                    address: auth.masemfordev.com
+                    port_value: 443
+    transport_socket:
+      name: envoy.transport_sockets.tls

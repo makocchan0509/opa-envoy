@@ -11,21 +11,22 @@ spec:
         run.googleapis.com/execution-environment: gen2
         run.googleapis.com/cpu-throttling: 'false'
         autoscaling.knative.dev/maxScale: '1'
+        autoscaling.knative.dev/minScale: '1'
     spec:
       containerConcurrency: 80
       timeoutSeconds: 30
       containers:
-        - image: asia-northeast1-docker.pkg.dev/ca-masem-test/any-container/keycloak:v21.1.2-u
+        - image: asia-northeast1-docker.pkg.dev/ca-masem-test/any-container/jboss/keycloak:16.1.1
           name: keycloak
           ports:
             containerPort: 8080
           env:
-            - name: KEYCLOAK_ADMIN
+            - name: KEYCLOAK_USER
               value: 'admin'
-            - name: KEYCLOAK_ADMIN_PASSWORD
+            - name: KEYCLOAK_PASSWORD
               value: 'admin'
-          args:
-          - "start-dev"
+            - name: KEYCLOAK_FRONTEND_URL
+              value: 'https://auth.masemfordev.com/auth'
           resources:
             limits:
               cpu: 4000m

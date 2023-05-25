@@ -15,7 +15,7 @@ spec:
       containerConcurrency: 80
       timeoutSeconds: 30
       containers:
-        - image: asia-northeast1-docker.pkg.dev/ca-masem-test/any-container/demo-sidecar-app:v0.0.1
+        - image: asia-northeast1-docker.pkg.dev/ca-masem-test/any-container/demo-sidecar-app:v0.0.5
           name: backend-app
           env:
             - name: APP_NAME
@@ -26,7 +26,7 @@ spec:
             limits:
               cpu: 1000m
               memory: 256Mi
-        - image: asia-northeast1-docker.pkg.dev/ca-masem-test/any-container/envoy:1.26.1-u
+        - image: asia-northeast1-docker.pkg.dev/ca-masem-test/any-container/envoy:1.26.1-u2
           name: envoy-proxy
           ports:
             containerPort: 51051
