@@ -36,3 +36,7 @@ services:
     environment:
     - APP_NAME=backend
     - APP_PORT=8090
+  front-app:
+    image: front-app:v0.0.3
+    ports:
+      - "3000:3000"
